@@ -1,19 +1,24 @@
 {
   "name": "sql-library-manager",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/browe83/SQL-Library-Manager.git"
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "^3.0.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
-  "author": "Brandon Rowe",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/browe83/SQL-Library-Manager/issues"
-  },
-  "homepage": "https://github.com/browe83/SQL-Library-Manager#readme"
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-pug": "^1.2.2"
+  }
 }
