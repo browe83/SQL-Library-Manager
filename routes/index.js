@@ -32,7 +32,8 @@ router.get('/', async (req, res, next) => {
     res.render('update-book');
   })
   .get('/books/:id', async (req, res, next) => {
-    res.render('update-book');
+    const book = await Book.findByPk(req.params.id);
+    res.render('update-book', { book });
   })
   .post('/books/:id', async (req, res, next) => {
     res.render('update-book');
