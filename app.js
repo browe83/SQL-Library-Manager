@@ -1,15 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const { sequelize } = require('./models/index');
 
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
+const app = express();
 
 (async () => {
   await sequelize.sync();
@@ -44,7 +43,6 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  console.log(`error handler status: ${err.status}`);
   if (err.status === 404) {
     res.render('page-not-found', { err });
   } else {
