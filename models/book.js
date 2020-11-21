@@ -15,7 +15,18 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    author: DataTypes.STRING,
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Please provide a value for "author"',
+        },
+        notEmpty: {
+          msg: 'Please provide a value for "author"',
+        },
+      },
+    },
     genre: DataTypes.STRING,
     year: DataTypes.INTEGER,
   }, {
