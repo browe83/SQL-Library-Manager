@@ -3,18 +3,18 @@ head
   title=book.title
   link(rel='stylesheet', href='/static/stylesheets/style.css')
 h1 Update Book
-form
+form(method='post', action=`/books/${book.id}`)
   p
-    label(for='title')=book.title
+    label(for='title') Title
     input#title(name='title', type='text', value=`${book.title}`)
   p
-    label(for='author')=book.author
+    label(for='author') Author
     input#author(name='author', type='text', value=`${book.author}`)
   p
-    label(for='genre')=book.genre
+    label(for='genre') Genre
     input#genre(name='genre', type='text', value=`${book.genre}`)
   p
-    label(for='year')=book.year
+    label(for='year') Year
     input#year(name='year', type='text', value=`${book.year}`)
   //- p
   //-   label(for='title') Title

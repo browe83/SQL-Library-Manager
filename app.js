@@ -27,7 +27,6 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use('/static', express.static('public'));
@@ -49,7 +48,10 @@ app.use((err, req, res, next) => {
   if (err.status === 404) {
     res.render('page-not-found', { err });
   } else {
-    if (!err.message) {
+    if (err.status === undefined) {
+      err.status = 500;
+    }
+    if (err.message === undefined || err.message === '') {
       err.message = 'Oops! Looks like something went wrong!';
     }
     console.log('error msg:', err.message);

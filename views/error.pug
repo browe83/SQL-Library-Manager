@@ -8,5 +8,5 @@ head
   title Page Not Found
   link(rel='stylesheet', href='/static/stylesheets/style.css')
 h1=err.message
-h2=err.status
+h2=`Status Code: ${err.status}`
 p Sorry! There was an unexpected error on the server.
