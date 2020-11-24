@@ -46,6 +46,16 @@ router
       }
     }
   })
+/* GET an update form to update individual book. */
+  .get('/books/:id/update', asyncHandler(async (req, res, next) => {
+    const book = await Book.findByPk(req.params.id);
+    if (book === null || book === undefined) {
+      const error = new Error('Book not found');
+      error.status = 404;
+      throw error;
+    }
+    res.render('update-book', { book });
+  }))
 /* GET an individual book by id. */
   .get('/books/:id', asyncHandler(async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
@@ -54,7 +64,7 @@ router
       error.status = 404;
       throw error;
     }
-    res.render('update-book', { book });
+    res.render('book-details', { book });
   }))
 /* POST update an individual book. */
   .post('/books/:id', asyncHandler(async (req, res, next) => {
@@ -78,8 +88,16 @@ router
       }
     }
   }))
-  .post('/books/:id/delete', async (req, res, next) => {
-    
-  });
+/* POST delete an individual book. */
+  .post('/books/:id/delete', asyncHandler(async (req, res, next) => {
+    const book = await Book.findByPk(req.params.id);
+    if (book === null || book === undefined) {
+      const error = new Error('Book not found');
+      error.status = 404;
+      throw error;
+    }
+    await book.destroy(req.body);
+    res.redirect('/books/');
+  }));
 
 module.exports = router;
