@@ -1,12 +1,7 @@
-//- extends layout.pug
+extends layout
 
-//- block content
-//-     h1=err.message
-//-     h2=err.status
-doctype html
-head
-  title Page Not Found
-  link(rel='stylesheet', href='/static/stylesheets/style.css')
-h1=err.message
-h2=`Status Code: ${err.status}`
-p Sorry! There was an unexpected error on the server.
+block content
+
+  h1=err.message
+  h2=`Status Code: ${err.status}`
+  p Sorry! There was an unexpected error on the server.

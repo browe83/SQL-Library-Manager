@@ -9,29 +9,27 @@ function asyncHandler(cb) {
     try {
       await cb(req, res, next);
     } catch (error) {
-      console.log('async error:', error);
       // Forward error to the global error handler
       next(error);
     }
   };
 }
 
-/* GET home page. */
 router
 /* GET books listing from root directory. */
   .get('/', asyncHandler(async (req, res, next) => {
     res.redirect('/books');
   }))
-  /* GET books listing. */
+/* GET books listing. */
   .get('/books', async (req, res, next) => {
     const books = await Book.findAll();
     res.render('index', { books });
   })
-  /* GET a new book form. */
+/* GET a new book form. */
   .get('/books/new', async (req, res, next) => {
     res.render('new-book');
   })
-  /* POST create book. */
+/* POST create book. */
   .post('/books/new', async (req, res, next) => {
     let book;
     try {
