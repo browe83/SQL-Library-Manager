@@ -1,13 +1,12 @@
 extends layout
 
 block content
-
   form(method='post', action='/books/search')
     p
       input(type='submit', value='Search')
       input(name='search', type='text', placeholder='search for books...')
+  h1 Books
   p
-    h1 Books
     a.button(href='/books/new') Create New Book
   table
     thead
@@ -25,3 +24,8 @@ block content
             td=book.genre
             td=book.year
         tr
+  ul  
+    each book in books
+      a.button(href='/books') Page
+  p
+   a.button(href='/books/') Home

@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { Book } = require('../models');
+const { Op } = require("sequelize");
 
 /* Handler function to wrap each route. */
 function asyncHandler(cb) {
@@ -19,6 +20,28 @@ router
 /* GET books listing from root directory. */
   .get('/', asyncHandler(async (req, res, next) => {
     res.redirect('/books');
+  }))
+/* POST search for books. */
+  .post('/books/search', asyncHandler(async (req, res, next) => {
+    const { search } = req.body;
+    const books = await Book.findAll({
+      where: {
+        [Op.or]: [{
+          title: { [Op.like]: `%${search}%` },
+        },
+        {
+          author: { [Op.like]: `%${search}%` },
+        },
+        {
+          genre: { [Op.like]: `%${search}%` },
+        },
+        {
+          year: { [Op.like]: `%${search}%` },
+        }],
+      },
+      // limit: 2,
+    });
+    res.render('search', { books });
   }))
 /* GET books listing. */
   .get('/books', async (req, res, next) => {
