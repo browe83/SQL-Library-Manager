@@ -70,53 +70,64 @@ router
     const { page } = req.params;
     const { search } = req.body;
     console.log('search bar:', search);
-    if (search === null || search === undefined || search === '') {
-      res.redirect('/books');
-    } else {
-      const books = await Book.findAll({
-        where: {
-          [Op.or]: [{
-            title: { [Op.like]: `%${search}%` },
-          },
-          {
-            author: { [Op.like]: `%${search}%` },
-          },
-          {
-            genre: { [Op.like]: `%${search}%` },
-          },
-          {
-            year: { [Op.like]: `%${search}%` },
-          }],
+    // if (search === null || search === undefined || search === '') {
+    //   res.redirect('/books');
+    // } else {
+    const books = await Book.findAll({
+      where: {
+        [Op.or]: [{
+          title: { [Op.like]: `%${search}%` },
         },
-      });
-      const subBooks = await Book.findAll({
-        where: {
-          [Op.or]: [{
-            title: { [Op.like]: `%${search}%` },
-          },
-          {
-            author: { [Op.like]: `%${search}%` },
-          },
-          {
-            genre: { [Op.like]: `%${search}%` },
-          },
-          {
-            year: { [Op.like]: `%${search}%` },
-          }],
+        {
+          author: { [Op.like]: `%${search}%` },
         },
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-      });
-      res.render('search', {
-        books, subBooks, pageSize, term: search,
-      });
-    }
+        {
+          genre: { [Op.like]: `%${search}%` },
+        },
+        {
+          year: { [Op.like]: `%${search}%` },
+        }],
+      },
+    });
+    const subBooks = await Book.findAll({
+      where: {
+        [Op.or]: [{
+          title: { [Op.like]: `%${search}%` },
+        },
+        {
+          author: { [Op.like]: `%${search}%` },
+        },
+        {
+          genre: { [Op.like]: `%${search}%` },
+        },
+        {
+          year: { [Op.like]: `%${search}%` },
+        }],
+      },
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+    });
+    res.render('search', {
+      books, subBooks, pageSize, term: search,
+    });
+    // }
   }))
 /* GET books listing. */
-  .get('/books', async (req, res, next) => {
+  .get('/books', asyncHandler(async (req, res, next) => {
+    const pageSize = 3;
+    let page;
+    if (req.params.page) {
+      page = req.params.page;
+    } else {
+      page = 0;
+    }
     const books = await Book.findAll();
-    res.render('index', { books });
-  })
+    const subBooks = await Book.findAll({
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    });
+    res.render('index', { books, pageSize, subBooks });
+  }))
 /* GET a new book form. */
   .get('/books/new', async (req, res, next) => {
     res.render('new-book');

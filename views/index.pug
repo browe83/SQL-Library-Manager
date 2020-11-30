@@ -17,7 +17,7 @@ block content
         th Genre
         th Year
     tbody
-      each book in books
+      each book in subBooks
         tr
           td
             a(href=`/books/${book.id}`)=book.title
@@ -25,3 +25,11 @@ block content
             td=book.genre
             td=book.year
         tr
+  -let n =1
+  -let y =1
+  ul  
+    while n <= Math.ceil(books.length / pageSize)
+      //- a.button(href=`/books/search/${y++}?term=''`)=n++
+      a.button(href=`/books/search/${y++}?term=`)=n++
+  p
+   a.button(href='/books/') Home
