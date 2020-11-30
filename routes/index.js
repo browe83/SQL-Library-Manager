@@ -1,8 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
+const { Op } = require('sequelize');
 const { Book } = require('../models');
-const { Op } = require("sequelize");
 
 /* Handler function to wrap each route. */
 function asyncHandler(cb) {
@@ -21,9 +21,11 @@ router
   .get('/', asyncHandler(async (req, res, next) => {
     res.redirect('/books');
   }))
-/* POST search for books. */
-  .post('/books/search', asyncHandler(async (req, res, next) => {
-    const { search } = req.body;
+/* GET search results from paginiation links. */
+  .get('/books/search/:page', asyncHandler(async (req, res, next) => {
+    const pageSize = 3;
+    const { page } = req.params;
+    const search = req.query.term;
     const books = await Book.findAll({
       where: {
         [Op.or]: [{
@@ -39,9 +41,76 @@ router
           year: { [Op.like]: `%${search}%` },
         }],
       },
-      // limit: 2,
     });
-    res.render('search', { books });
+    const subBooks = await Book.findAll({
+      where: {
+        [Op.or]: [{
+          title: { [Op.like]: `%${search}%` },
+        },
+        {
+          author: { [Op.like]: `%${search}%` },
+        },
+        {
+          genre: { [Op.like]: `%${search}%` },
+        },
+        {
+          year: { [Op.like]: `%${search}%` },
+        }],
+      },
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+    });
+    res.render('search', {
+      books, subBooks, pageSize, term: search,
+    });
+  }))
+/* POST search by title, author, etc. using search bar. */
+  .post('/books/search/:page', asyncHandler(async (req, res, next) => {
+    const pageSize = 3;
+    const { page } = req.params;
+    const { search } = req.body;
+    console.log('search bar:', search);
+    if (search === null || search === undefined || search === '') {
+      res.redirect('/books');
+    } else {
+      const books = await Book.findAll({
+        where: {
+          [Op.or]: [{
+            title: { [Op.like]: `%${search}%` },
+          },
+          {
+            author: { [Op.like]: `%${search}%` },
+          },
+          {
+            genre: { [Op.like]: `%${search}%` },
+          },
+          {
+            year: { [Op.like]: `%${search}%` },
+          }],
+        },
+      });
+      const subBooks = await Book.findAll({
+        where: {
+          [Op.or]: [{
+            title: { [Op.like]: `%${search}%` },
+          },
+          {
+            author: { [Op.like]: `%${search}%` },
+          },
+          {
+            genre: { [Op.like]: `%${search}%` },
+          },
+          {
+            year: { [Op.like]: `%${search}%` },
+          }],
+        },
+        offset: (page - 1) * pageSize,
+        limit: pageSize,
+      });
+      res.render('search', {
+        books, subBooks, pageSize, term: search,
+      });
+    }
   }))
 /* GET books listing. */
   .get('/books', async (req, res, next) => {
