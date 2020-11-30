@@ -69,10 +69,6 @@ router
     const pageSize = 3;
     const { page } = req.params;
     const { search } = req.body;
-    console.log('search bar:', search);
-    // if (search === null || search === undefined || search === '') {
-    //   res.redirect('/books');
-    // } else {
     const books = await Book.findAll({
       where: {
         [Op.or]: [{
@@ -110,7 +106,6 @@ router
     res.render('search', {
       books, subBooks, pageSize, term: search,
     });
-    // }
   }))
 /* GET books listing. */
   .get('/books', asyncHandler(async (req, res, next) => {
