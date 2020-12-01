@@ -110,16 +110,9 @@ router
 /* GET books listing. */
   .get('/books', asyncHandler(async (req, res, next) => {
     const pageSize = 3;
-    let page;
-    if (req.params.page) {
-      page = req.params.page;
-    } else {
-      page = 0;
-    }
     const books = await Book.findAll();
     const subBooks = await Book.findAll({
       limit: pageSize,
-      offset: (page - 1) * pageSize,
     });
     res.render('index', { books, pageSize, subBooks });
   }))
