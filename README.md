@@ -1,11 +1,17 @@
-Treehouse Full Stack Techdegree Project 8
-SQL Library Manager by Brandon Rowe
+# Random Quote Generator
+### TechDegree Project 8  
+Disclaimer: I completed this project as part of my Treehouse Full Stack JavaScript Techdegree. CSS and HTML were provided.
 
-Thanks for taking a look at my project! I am going for exceeds expectations.  As a result, I have added a search bar and pagination links to this project.
+## About
+This project creates a an application for fictional local library to help them manage their collection of books.  The application includes pages to list, add, update, an delete books.  
 
-I look forward to your comments and feedback.
+### Technologies
+* PUG
+* VSCode
+* GitHub
+* Sequelize ORM
+* Node.js
+* SQLite
 
-Thanks again for your time and help.
-Best,
-
-Brandon
+## Installation
+After cloning repository, run `npm install` to install dependencies.  Then run `npm start` to launch the app.  Lastly, open a browser and go to http://localhost:3000/.
