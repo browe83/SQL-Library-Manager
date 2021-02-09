@@ -15,4 +15,9 @@ This project creates a an application for fictional local library to help them m
 * Express
 
 ## Installation
-After cloning repository, run `npm install` to install dependencies.  Then run `npm start` to launch the app.  Lastly, open a browser and go to http://localhost:3000/.
+```shell
+$ git clone https://github.com/browe83/React-Gallery-App.git
+$ cd React-Gallery-App
+$ npm start
+```
+App is viewalble at localhost: 3000.
